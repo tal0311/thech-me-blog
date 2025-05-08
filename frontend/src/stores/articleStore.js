@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watchEffect } from 'vue'
 import { defineStore } from 'pinia'
 import { articleService } from '@/services/article'
 import { loadFromStorage } from '@/services/util.service'
@@ -33,6 +33,17 @@ export const useArticleStore = defineStore('article', () => {
   function getArticleById(articleId) {
     return articles.value.find((article) => article._id === articleId)
   }
+
+  watchEffect(() => {
+    if(isLoading.value){
+      dispatchEvent(new CustomEvent('loader:show', { detail: {
+        message: 'Loading articles...'
+      } }))
+    }
+    if(!isLoading.value){
+      dispatchEvent(new CustomEvent('loader:hide'))
+    }
+  })
 
 
   async function loadArticles() {
