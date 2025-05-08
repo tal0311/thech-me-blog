@@ -38,6 +38,10 @@ async function ajax(endpoint, method = 'GET', data = null) {
             sessionStorage.clear()
             window.location.assign('/')
         }
+        if(err.response && err.response.status === 404) {
+                      
+            window.history.back()
+        }
         throw err
     }
 }

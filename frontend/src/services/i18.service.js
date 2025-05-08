@@ -14,7 +14,15 @@ const trans={
     'approvedComments':{
         'en': 'Approved Comments',
         'he': 'תגובות מאושרות',
-    }
+    },
+    'author':{
+        'en': 'Author',
+        'he': 'מחבר',
+    },
+    'publishedAt':{
+        'en': 'Published At',
+        'he': 'פורסם ב',
+    },
 }
 
 

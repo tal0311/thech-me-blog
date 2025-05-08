@@ -1,14 +1,15 @@
 <template>
     <li class="article-preview" :style="getStyleByDir">
-        <pre>{{ props.article }}</pre>
-        <h2>{{ props.article.title[lang] }}</h2>
+        <!-- <pre>{{ props.article }}</pre> -->
+         
+        <h2 @click="navigateTo">{{ props.article.title[lang] }}</h2>
         <p>{{ props.article.description[lang] }}</p>
-        <p class="article-meta">
+        <div class="article-meta">
 
-            <date>{{ convertDate(props.article.publishedAt) }}</date><br>
-            <span v-if="props.article.author">{{ props.article.author.name }}</span><br>
+            <date>{{ i18('publishedAt') }}: {{ convertDate(props.article.publishedAt) }}</date><br>
+            <span v-if="props.article.author">{{ i18('author') }}: {{ props.article.author.name }}</span><br>
             <small v-if="props.article.tags">{{props.article.tags[lang].map(tag => `#${tag}`).join(', ')}}</small>
-        </p>
+        </div>
 
         <section>
             <h4>{{ i18('comments') }}</h4>
@@ -19,13 +20,16 @@
 
     </li>
 
+    <!-- get totalComments, title,description,publishedAt,slug, approvedComments, author ,tags-->
+
 
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { i18nService } from '@/services/i18.service';
+
 
 
 const props = defineProps({
@@ -52,6 +56,13 @@ function convertDate(dateString) {
     return new Date(dateString).toLocaleDateString(lang.value, options);
 }
 
+const router = useRouter();
+function navigateTo() {
+  
+    const slug = props.article.slug;
+    const lang = route.query.lang || 'en';
+    router.push({ name: 'article-details', params: { slug }, query: { lang } });
+}
 
 // const publishedAt = "2025-05-01T20:33:37.000Z";
 // const humanReadableDateTime = convertDate(publishedAt) + ' ' + new Date(publishedAt).toLocaleTimeString();
@@ -64,9 +75,9 @@ function convertDate(dateString) {
 <style scoped>
 .article-preview {
     border: 1px solid #ddd;
-    padding: 16px;
-    border-radius: 8px;
-    margin-bottom: 16px;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 .article-preview h2 {

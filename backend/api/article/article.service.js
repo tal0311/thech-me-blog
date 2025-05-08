@@ -69,20 +69,30 @@ async function query(filterBy = { txt: '' }) {
 	}
 }
 
-async function getById(articleId) {
+async function getById(slug) {
 	try {
-		const criteria = { _id: dbService.mongoID(articleId) }
+		
+		const criteria = { slug , isPublished: true }
 
 		const collection = await dbService.getCollection('article')
 		const article = await collection.findOne(criteria)
 
+		if (!article) {
+			const err = new Error('Article not found')
+			err.status = 404
+			throw err
+		}
+
+
 		article.publishedAt = article._id.getTimestamp()
 		return article
+
 	} catch (err) {
-		logger.error(`while finding article ${articleId}`, err)
+		logger.error(`while finding article with slug ${slug}`, err)
 		throw err
 	}
 }
+
 
 async function remove(articleId) {
 	try {

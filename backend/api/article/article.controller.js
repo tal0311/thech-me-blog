@@ -20,17 +20,17 @@ export async function getArticles(req, res) {
 
 export async function getArticleById(req, res) {
 	try {
-		const articleId = req.params.id
-		const article = await articleService.getById(articleId)
+		const { slug } = req.params
+		const article = await articleService.getById(slug)
 		res.json(article)
 	} catch (err) {
-		logger.error('Failed to get article', err)
-		res.status(400).send({ err: 'Failed to get article' })
+		logger.error('Failed to get article', JSON.stringify(err))
+		res.status(err.status).send( { err: 'Failed to get article' })
 	}
 }
 
 export async function addArticle(req, res) {
-	const { loggedInUser ={"name": "טל","email": "tal@example22.com"}, body: article } = req
+	const { loggedInUser = { "name": "טל", "email": "tal@example22.com" }, body: article } = req
 
 	try {
 		article.author = loggedInUser
@@ -38,7 +38,7 @@ export async function addArticle(req, res) {
 		res.json(addedArticle)
 	} catch (err) {
 		logger.error('Failed to add article', err)
-		res.status(400).send({ err: 'Failed to add article' })
+		res.status(401).send({ err: 'Failed to add article' })
 	}
 }
 
@@ -81,7 +81,7 @@ export async function addArticleComment(req, res) {
 		const articleId = req.params.id
 		const comment = {
 			txt: req.body.txt,
-			
+
 		}
 		const savedMsg = await articleService.addArticleComment(articleId, comment)
 		res.json(savedMsg)

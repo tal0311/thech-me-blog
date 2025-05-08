@@ -21,6 +21,11 @@ const router = createRouter({
       component:BlogIndex
       // component: () => import('../views/BlogIndex.vue'),
     },
+    {
+      path: '/article/:slug',
+      name: 'article-details',
+      component: () => import('../views/ArticleDetails.vue'),
+    }
   ],
 
   scrollBehavior(to, from, savedPosition) {

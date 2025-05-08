@@ -1,17 +1,37 @@
 <template>
-  <!-- <div class="article-content" v-html="html"></div> -->
-
-  <iframe src="https://tal0311.github.io/Tech-Me/HTML/rate-limiter.html" width="100%" height="900" frameborder="0"
-    style="border: none;"></iframe>
-
+  <section class="article-details">
+    <iframe :src="`https://tal0311.github.io/Tech-Me/HTML/${route.params.slug}-${route.query.lang}.html`" width="100%"
+      height="900" frameborder="0" style="border: none;">
+    </iframe>
+  </section>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { articleService } from '@/services/article'
 
-const props = defineProps({
-  url: String
+const route = useRoute()
+const article = ref(null)
+
+onMounted(() => {
+  loadArticle()
+  console.log('Route:', route.params.slug);
+  console.log('Lang:', route.query.lang);
 })
+
+
+async function loadArticle() {
+  try {
+    article.value = await articleService.getById(route.params.slug)
+  } catch (error) {
+    console.error('Error loading article:', error)
+  }
+
+}
+
+
+
 
 
 
