@@ -1,0 +1,43 @@
+{
+    
+    "slug": "rate-limiter",
+    "title": {
+      "he": "תן גז לשרת, לא להאקרים",
+      "en": "Throttle the Hacker, Not the Server"
+    },
+    "description": {
+      "he": "מדריך אמיתי ל-Rate Limiting עם פרקטיקה והומור",
+      "en": "A practical and witty guide to Rate Limiting"
+    },
+    "articleUrl": {
+      "he": "https://tal0311.github.io/Tech-Me/HTML/rate-limiter-he.html",
+      "en": "https://tal0311.github.io/Tech-Me/HTML/rate-limiter-en.html"
+    },
+    "tags": {
+      "he": ["אבטחה", "Node.js", "שרתים"],
+      "en": ["security", "nodejs", "backend"]
+    },
+    "isPublished": true,
+    "author": {
+      "name": "טל",
+      "email": "tal@example.com"
+    },
+    "updatedAt": null,
+    "comments": [
+      {
+        "commentId": "cmt_001",
+        "name": "שירה לוי",
+        "content": "מאמר מעולה! אהבתי את ההסבר על תוקפים שמנצלים Rate Limit גלובלי.",
+        "createdAt": { "$date": "2024-05-01T17:40:00.000Z" },
+        "isApproved": true
+      },
+      {
+        "commentId": "cmt_002",
+        "name": "Yossi",
+        "content": "אפשר דוגמה עם Redis גם?",
+        "createdAt": { "$date": "2024-05-01T17:50:00.000Z" },
+        "isApproved": false
+      }
+    ]
+  }
+  
