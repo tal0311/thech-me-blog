@@ -132,17 +132,20 @@ async function add(sub) {
     }
 }
 
-async function unSubscribe(sub) {
+async function unSubscribe(email) {
 
     try {
 
         const collection = dbService.getCollection(collectionName)
 
         collection.updateOne(
-            { email: sub.email },
+            { email, },
             { $set: { isActive: false } }
         )
-        return sub
+        return (
+            `<h1>Unsubscribed successfully</h1>
+            <p>You have been unsubscribed from our newsletter.</p>`
+        )
     } catch (error) {
         logger.error('Failed to unsubscribe', error)
         throw error
