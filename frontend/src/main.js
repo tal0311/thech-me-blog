@@ -8,7 +8,7 @@ import router from './router'
 
 // plugins
 import plugins from './plugins'
-console.log('plugins', plugins);
+// console.log('plugins', plugins);
 
 
 const app = createApp(App)

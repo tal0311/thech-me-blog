@@ -3,13 +3,12 @@ import { articleService } from './article.service.js'
 
 export async function getArticles(req, res) {
 	try {
-		console.log('ok', req.query);
-
 		const filterBy = {
-			txt: req.query.txt || '',
+			txt: req.query.q || '',
 			lang: req.query.lang === 'en' ? 'he' : 'en',
-			pageIdx: req.query.pageIdx,
+			pageIdx: parseInt(req.query.pageIdx) || 0,
 		}
+
 		const articles = await articleService.query(filterBy)
 		res.json(articles)
 	} catch (err) {
@@ -25,7 +24,7 @@ export async function getArticleById(req, res) {
 		res.json(article)
 	} catch (err) {
 		logger.error('Failed to get article', JSON.stringify(err))
-		res.status(err.status).send( { err: 'Failed to get article' })
+		res.status(err.status).send({ err: 'Failed to get article' })
 	}
 }
 

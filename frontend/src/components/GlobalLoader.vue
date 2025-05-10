@@ -12,7 +12,7 @@
   const msg = ref('')
   
   const show = (ev) => {
-    console.log('GlobalLoader show event:', ev);
+    // console.log('GlobalLoader show event:', ev);
     
     visible.value = true
     msg.value = ev.detail.message || 'Loading...'

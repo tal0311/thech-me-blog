@@ -7,7 +7,7 @@ import { loadFromStorage } from '@/services/util.service'
 export const useArticleStore = defineStore('article', () => {
 
   const articles = ref(null)
-  const filterBy = ref({ ...articleService.getDefaultFilter() })
+  // const filterBy = ref({ ...articleService.getDefaultFilter() })
   const isLoading = ref(false)
   const isError = ref(false)
   const errorMsg = ref('')
@@ -18,13 +18,7 @@ export const useArticleStore = defineStore('article', () => {
   }
   )
 
-  const getFilterBy = computed(() => {
-    if (!filterBy.value) return {}
-    return filterBy.value
-  }
-  )
-
-
+  
   const getArticles = computed(() => {
     if (!articles.value) return []
     return articles.value
@@ -46,7 +40,7 @@ export const useArticleStore = defineStore('article', () => {
   })
 
 
-  async function loadArticles() {
+  async function loadArticles(filterBy) {
 
     isLoading.value = true
     isError.value = false
@@ -55,7 +49,7 @@ export const useArticleStore = defineStore('article', () => {
 
 
     try {
-      const articlesFromService = await articleService.query(JSON.parse(JSON.stringify(filterBy.value)))
+      const articlesFromService = await articleService.query(JSON.parse(JSON.stringify(filterBy)))
       articles.value = articlesFromService
       } catch (err) {
       isError.value = true
@@ -65,5 +59,5 @@ export const useArticleStore = defineStore('article', () => {
     }
   }
 
-  return { getArticleById, loadArticles, getArticles, getFilterBy, getLoading, isError, errorMsg }
+  return { getArticleById, loadArticles, getArticles, getLoading, isError, errorMsg }
 })

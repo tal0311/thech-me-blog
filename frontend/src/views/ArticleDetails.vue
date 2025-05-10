@@ -1,23 +1,30 @@
 <template>
   <section class="article-details">
-    <iframe :src="`https://tal0311.github.io/Tech-Me/HTML/${route.params.slug}-${route.query.lang}.html`" width="100%"
+    <iframe
+     ref="iframeRef"
+     :src="`https://tal0311.github.io/Tech-Me/HTML/${route.params.slug}-${route.query.lang}.html`" width="100%"
       height="900" frameborder="0" style="border: none;">
     </iframe>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { articleService } from '@/services/article'
 
+// import {highlightText} from '@/services/util.service.js';
+
 const route = useRoute()
 const article = ref(null)
+const iframeRef = ref(null)
 
-onMounted(() => {
-  loadArticle()
+onMounted(async() => {
+ await loadArticle()
   console.log('Route:', route.params.slug);
   console.log('Lang:', route.query.lang);
+
+
 })
 
 
