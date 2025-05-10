@@ -29,7 +29,7 @@ import { useRouter } from 'vue-router'
 
 function signToMailLIst(){
   console.log('Sign to mail list clicked')
-  // Add your logic here
+ 
 }
 
 const router = useRouter()
@@ -40,13 +40,8 @@ function onUserSearch() {
   router.push({  query: { ...route.query,q: searchTerm.value  } })
 }
 
+const lang = ref(route.query.lang || 'he')
 
-// watchEffect(() => {
-
-//     if(route.path === '')
-//   console.log('Search term changed:',route.query)
-//   // Perform any additional actions when the search term changes
-// })
 
 </script>
 
