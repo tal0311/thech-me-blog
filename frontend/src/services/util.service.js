@@ -53,3 +53,14 @@ export function loadFromStorage(key) {
     const data = localStorage.getItem(key)
     return (data) ? JSON.parse(data) : undefined
 }
+
+export function highlightText(containerSelector, searchTerm) {
+	if (!searchTerm) return
+
+	const container = document.querySelector(containerSelector)
+	if (!container) return
+
+	const regex = new RegExp(`(${searchTerm})`, 'gi')
+
+	container.innerHTML = container.innerHTML.replace(regex, '<mark>$1</mark>')
+}

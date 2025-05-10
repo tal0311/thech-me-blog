@@ -21,12 +21,13 @@ async function query(filterBy = { txt: '' }) {
 
 
 	try {
-		const criteria = _buildCriteria(filterBy)
-		const sort = _buildSort(filterBy)
 
+		
+	
+		const criteria = _buildCriteria(filterBy)
 		const collection = await dbService.getCollection('article')
 
-		// console.log(collection);
+		
 
 		var articleCursor = await collection.aggregate([
 			{ $match: criteria },
@@ -233,15 +234,18 @@ async function removeArticleComment(articleId, commentId) {
 }
 
 function _buildCriteria(filterBy) {
-	const criteria = {
-		[`title.${filterBy.lang === 'he' ? 'en' : 'he'}`]: { $regex: filterBy.txt, $options: 'i' },
+	const regex = new RegExp(filterBy.txt, 'i')
 
+	return {
+		$or: [
+			{ 'title.he': { $regex: regex } },
+			{ 'title.en': { $regex: regex } },
+			{ 'description.he': { $regex: regex } },
+			{ 'description.en': { $regex: regex } },
+			{ slug: { $regex: regex } },
+			{ 'tags.he': { $elemMatch: { $regex: regex } } },
+			{ 'tags.en': { $elemMatch: { $regex: regex } } }
+		]
 	}
-
-	return criteria
 }
 
-function _buildSort(filterBy) {
-	if (!filterBy.sortField) return {}
-	return { [filterBy.sortField]: filterBy.sortDir }
-}

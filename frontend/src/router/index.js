@@ -3,6 +3,9 @@ import HomeView from '@/views/HomeView.vue'
 import BlogIndex from '@/views/BlogIndex.vue'
 
 import { loadFromStorage } from '@/services/util.service'
+import { useArticleStore } from '@/stores/articleStore'
+import { articleService } from '@/services/article'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -14,11 +17,11 @@ const router = createRouter({
     },
     {
       path: '/article',
-      name: 'article',
+      name: 'article-index',
       // route level code-splitting
       // this generates a separate chunk (About.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component:BlogIndex
+      component: BlogIndex
       // component: () => import('../views/BlogIndex.vue'),
     },
     {
@@ -40,10 +43,16 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // to.query.lang = loadFromStorage('lang') || 'he'
 
-  console.log('router', to, from);
-  
+  const defaultFilter = articleService.getDefaultFilter()
+  const articleStore = useArticleStore()
+
+  console.log('router beforeEach', to.name, from.name, to.query, from.query);
+
+  const searchPaths = ['article-index']
+  if (searchPaths.includes(to.name)) {
+    articleStore.loadArticles({ ...defaultFilter, ...to.query, lang: to.query.lang || 'he' })
+  }
 
   next()
 

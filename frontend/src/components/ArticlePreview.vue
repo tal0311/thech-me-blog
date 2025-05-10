@@ -1,5 +1,5 @@
 <template>
-    <li class="article-preview" :style="getStyleByDir">
+    <li  class="article-preview" :style="getStyleByDir">
         <!-- <pre>{{ props.article }}</pre> -->
          
         <h2 @click="navigateTo">{{ props.article.title[lang] }}</h2>
@@ -8,7 +8,7 @@
 
             <date>{{ i18('publishedAt') }}: {{ convertDate(props.article.publishedAt) }}</date><br>
             <span v-if="props.article.author">{{ i18('author') }}: {{ props.article.author.name }}</span><br>
-            <small v-if="props.article.tags">{{props.article.tags[lang].map(tag => `#${tag}`).join(', ')}}</small>
+            <small v-if="props.article.tags[lang]">{{props.article.tags[lang].map(tag => `#${tag}`).join(', ')}}</small>
         </div>
 
         <section>
@@ -26,9 +26,10 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, h } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { i18nService } from '@/services/i18.service';
+
 
 
 
@@ -41,6 +42,13 @@ const props = defineProps({
 
 const route = useRoute();
 const lang = ref(route.query.lang || 'en');
+onMounted(()=> {
+    // highlightQueryText(route.query.q)
+   
+    // highlightText(route.query.q)
+})
+
+
 
 function i18(key) {
     return i18nService.getTrans(key, lang.value);
@@ -61,7 +69,7 @@ function navigateTo() {
   
     const slug = props.article.slug;
     const lang = route.query.lang || 'en';
-    router.push({ name: 'article-details', params: { slug }, query: { lang } });
+    router.push({ name: 'article-details', params: { slug }, query: { ...route.query } });
 }
 
 // const publishedAt = "2025-05-01T20:33:37.000Z";
